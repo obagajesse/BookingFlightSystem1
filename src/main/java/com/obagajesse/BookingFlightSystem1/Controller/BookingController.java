@@ -2,6 +2,7 @@ package com.obagajesse.BookingFlightSystem1.Controller;
 
 import com.obagajesse.BookingFlightSystem1.DTO.Booking;
 import com.obagajesse.BookingFlightSystem1.ExceptionHandling.BookingNotFoundException;
+import com.obagajesse.BookingFlightSystem1.ExceptionHandling.InvalidInputException;
 import com.obagajesse.BookingFlightSystem1.Service.BookingService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,6 +22,9 @@ public class BookingController {
 
     @PostMapping
     public ResponseEntity<Booking> addBooking(@RequestBody Booking booking){
+        if (booking == null) {
+            throw new InvalidInputException("Booking Invalid.");
+        }
         return new ResponseEntity<>(bookingService.createBooking(booking), HttpStatus.CREATED);
     }
 

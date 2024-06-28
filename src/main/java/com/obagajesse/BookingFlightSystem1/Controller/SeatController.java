@@ -1,6 +1,7 @@
 package com.obagajesse.BookingFlightSystem1.Controller;
 
 import com.obagajesse.BookingFlightSystem1.DTO.Seat;
+import com.obagajesse.BookingFlightSystem1.ExceptionHandling.InvalidInputException;
 import com.obagajesse.BookingFlightSystem1.ExceptionHandling.SeatNotFoundException;
 import com.obagajesse.BookingFlightSystem1.Service.SeatService;
 import org.springframework.http.HttpStatus;
@@ -36,6 +37,9 @@ public class SeatController {
 
     @PostMapping
     public ResponseEntity<Seat> addSeat(@RequestBody Seat seat){
+        if (seat == null ) {
+            throw new InvalidInputException("Invalid Seat Input.");
+        }
         return new ResponseEntity<>(seatService.createSeat(seat), HttpStatus.CREATED);
     }
 

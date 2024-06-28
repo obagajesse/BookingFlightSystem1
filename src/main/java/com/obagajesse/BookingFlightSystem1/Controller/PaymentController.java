@@ -1,6 +1,7 @@
 package com.obagajesse.BookingFlightSystem1.Controller;
 
 import com.obagajesse.BookingFlightSystem1.DTO.Payment;
+import com.obagajesse.BookingFlightSystem1.ExceptionHandling.InvalidInputException;
 import com.obagajesse.BookingFlightSystem1.ExceptionHandling.PaymentFailedException;
 import com.obagajesse.BookingFlightSystem1.Service.PaymentService;
 import org.springframework.http.HttpStatus;
@@ -36,6 +37,9 @@ public class PaymentController {
 
     @PostMapping
     public ResponseEntity<Payment> createPayment(@RequestBody Payment payment){
+        if (payment == null) {
+            throw new InvalidInputException("Payment Invalid.");
+        }
         return new ResponseEntity<>(paymentService.createPayment(payment), HttpStatus.CREATED);
     }
 

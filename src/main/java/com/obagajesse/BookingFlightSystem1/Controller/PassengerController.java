@@ -1,6 +1,7 @@
 package com.obagajesse.BookingFlightSystem1.Controller;
 
 import com.obagajesse.BookingFlightSystem1.DTO.Passenger;
+import com.obagajesse.BookingFlightSystem1.ExceptionHandling.InvalidInputException;
 import com.obagajesse.BookingFlightSystem1.ExceptionHandling.PassengerNotFoundException;
 import com.obagajesse.BookingFlightSystem1.Service.PassengerService;
 import org.springframework.http.HttpStatus;
@@ -36,6 +37,9 @@ public class PassengerController {
 
     @PostMapping
     public ResponseEntity<Passenger> createPassenger(@RequestBody Passenger passenger){
+        if (passenger == null) {
+            throw new InvalidInputException("Invalid Passenger Input.");
+        }
         return new ResponseEntity<>(passengerService.createPassenger(passenger), HttpStatus.CREATED);
     }
 
