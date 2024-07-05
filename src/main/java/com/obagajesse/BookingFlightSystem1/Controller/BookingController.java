@@ -3,6 +3,7 @@ package com.obagajesse.BookingFlightSystem1.Controller;
 import com.obagajesse.BookingFlightSystem1.DTO.Booking;
 import com.obagajesse.BookingFlightSystem1.ExceptionHandling.BookingNotFoundException;
 import com.obagajesse.BookingFlightSystem1.Service.BookingService;
+import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -19,11 +20,13 @@ public class BookingController {
         this.bookingService = bookingService;
     }
 
+    @Operation(summary = "Make Booking.")
     @PostMapping
     public ResponseEntity<Booking> addBooking(@RequestBody Booking booking){
         return new ResponseEntity<>(bookingService.createBooking(booking), HttpStatus.CREATED);
     }
 
+    @Operation(summary = "Get Booking By Id")
     @GetMapping("/{id}")
     public ResponseEntity<Booking> getBookingById(@PathVariable Long id){
         Booking booking = bookingService.getBookingById(id);
@@ -33,12 +36,14 @@ public class BookingController {
         return ResponseEntity.ok(booking);
     }
 
+    @Operation(summary = "Get all the available bookings.")
     @GetMapping
     public ResponseEntity<List<Booking>> getAllBookings(){
         List<Booking> bookings = bookingService.getAllBookings();
         return ResponseEntity.ok(bookings);
     }
 
+    @Operation(summary = "Delete Existing Bookings.")
     @DeleteMapping("/{id}")
     public ResponseEntity<String> deleteBooking(@PathVariable Long id){
         bookingService.deleteBooking(id);
