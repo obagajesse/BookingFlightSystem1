@@ -25,7 +25,7 @@ public class SeatServiceImpl implements SeatService {
         return restTemplate.getForObject(flaskApiBaseUrl, Seat[].class);
     }
 
-    public Seat getSeat(String seatNumber){
+    public Seat getSeatByNumber(String seatNumber){
         return restTemplate.getForObject(flaskApiBaseUrl + "/" + seatNumber, Seat.class);
     }
 

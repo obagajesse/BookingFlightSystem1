@@ -12,6 +12,8 @@ public interface SeatService {
 
     Seat getSeatById(Long id);
 
+    Seat getSeatByNumber(String number);
+
     Seat updateSeat(Seat seat);
 
     void deleteSeat(Long id);
