@@ -21,7 +21,7 @@ public class SeatController {
 
     @GetMapping
     public ResponseEntity<List<Seat>> getAllSeats(){
-        List<Seat> seats = seatService.getAllSeats();
+        List<Seat> seats = List.of(seatService.getAllSeats());
         return ResponseEntity.ok(seats);
     }
 

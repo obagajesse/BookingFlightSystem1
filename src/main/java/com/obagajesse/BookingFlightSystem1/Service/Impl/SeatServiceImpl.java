@@ -8,13 +8,27 @@ import com.obagajesse.BookingFlightSystem1.Service.SeatService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
 
 import java.time.LocalDateTime;
-import java.util.List;
 
 @Service
 @Primary
 public class SeatServiceImpl implements SeatService {
+
+    @Autowired
+    private RestTemplate restTemplate;
+
+    private final String flaskApiBaseUrl = "http://localhost:5000/api/seats";
+
+    public Seat[] getAllSeats(){
+        return restTemplate.getForObject(flaskApiBaseUrl, Seat[].class);
+    }
+
+    public Seat getSeat(String seatNumber){
+        return restTemplate.getForObject(flaskApiBaseUrl + "/" + seatNumber, Seat.class);
+    }
+
 
     private final SeatRepository seatRepository;
 
@@ -32,11 +46,11 @@ public class SeatServiceImpl implements SeatService {
         return SeatMapper.mapToSeat(savedSeatEntity);
     }
 
-    @Override
-    public List<Seat> getAllSeats(){
-        List<SeatEntity> seatEntities = seatRepository.findAll();
-        return seatEntities.stream().map(SeatMapper::mapToSeat).toList();
-    }
+//    @Override
+//    public List<Seat> getAllSeats(){
+//        List<SeatEntity> seatEntities = seatRepository.findAll();
+//        return seatEntities.stream().map(SeatMapper::mapToSeat).toList();
+//    }
 
     @Override
     public Seat getSeatById(Long id){
