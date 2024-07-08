@@ -7,11 +7,14 @@ import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+//import io.swagger.annotations.Api;
+
 
 import java.util.List;
 
 @RestController
 @RequestMapping("/api/bookings")
+//@Api(value = "Booking Management System", description = "Operations pertaining to bookings in the Flight Management System")
 public class BookingController {
 
     private  BookingService bookingService;
