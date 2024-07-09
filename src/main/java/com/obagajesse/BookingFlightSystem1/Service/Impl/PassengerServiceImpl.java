@@ -42,6 +42,9 @@ public class PassengerServiceImpl implements PassengerService {
     @Override
     public Passenger updatePassenger(Passenger passenger){
         PassengerEntity passengerEntity = PassengerMapper.mapToPassengerEntity(passenger);
+        passengerEntity.setFirstName(String.valueOf(passenger.getFirstName()));
+        passengerEntity.setLastName(String.valueOf(passenger.getLastName()));
+        passengerEntity.setPassportNumber(String.valueOf(passenger.getPassportNumber()));
         passengerEntity.setUpdatedAt(LocalDateTime.now());
         passengerEntity.setCreatedAt(LocalDateTime.now());
         PassengerEntity updatedPassengerEntity = passengerRepository.save(passengerEntity);
