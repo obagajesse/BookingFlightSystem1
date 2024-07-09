@@ -2,6 +2,7 @@ package com.obagajesse.BookingFlightSystem1.Service.Impl;
 
 import com.obagajesse.BookingFlightSystem1.DTO.Ticket;
 import com.obagajesse.BookingFlightSystem1.Entity.TicketEntity;
+import com.obagajesse.BookingFlightSystem1.Enum.ClassType;
 import com.obagajesse.BookingFlightSystem1.Mapper.TicketMapper;
 import com.obagajesse.BookingFlightSystem1.Repository.TicketRepository;
 import com.obagajesse.BookingFlightSystem1.Service.TicketService;
@@ -23,6 +24,7 @@ public class TicketServiceImpl implements TicketService {
     @Override
     public Ticket createTicket(Ticket ticket){
         TicketEntity ticketEntity = TicketMapper.mapToTicketEntity(ticket);
+        ticketEntity.setStatus();
         ticketEntity.setCreatedAt(LocalDateTime.now());
         ticketEntity.setUpdatedAt(LocalDateTime.now());
         ticketEntity.setTicketNumber(UUID.randomUUID().toString());
@@ -47,7 +49,6 @@ public class TicketServiceImpl implements TicketService {
         TicketEntity ticketEntity = TicketMapper.mapToTicketEntity(ticket);
         ticketEntity.setCreatedAt(LocalDateTime.now());
         ticketEntity.setUpdatedAt(LocalDateTime.now());
-//        ticketEntity.setStatus();
         ticketEntity.setTicketNumber(UUID.randomUUID().toString());
         TicketEntity updatedTicketEntity = ticketRepository.save(ticketEntity);
         return TicketMapper.mapToTicket(updatedTicketEntity);
