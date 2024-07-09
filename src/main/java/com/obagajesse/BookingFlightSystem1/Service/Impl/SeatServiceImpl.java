@@ -40,6 +40,7 @@ public class SeatServiceImpl implements SeatService {
     @Override
     public Seat createSeat(Seat seat){
         SeatEntity seatEntity = SeatMapper.mapToSeatEntity(seat);
+        seatEntity.setAvailability(seat.getAvailability());
         seatEntity.setUpdatedAt(LocalDateTime.now());
         seatEntity.setCreatedAt(LocalDateTime.now());
         SeatEntity savedSeatEntity = seatRepository.save(seatEntity);
