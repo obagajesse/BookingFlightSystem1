@@ -11,6 +11,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 import java.time.LocalDateTime;
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @Primary
@@ -19,26 +22,23 @@ public class SeatServiceImpl implements SeatService {
     @Autowired
     private RestTemplate restTemplate;
 
-    private final String flaskApiBaseUrl = "http://localhost:5000/api/seats";
-
-    public Seat[] getAllSeats(){
-        return restTemplate.getForObject(flaskApiBaseUrl, Seat[].class);
-    }
-
-    public Seat getSeatByNumber(String seatNumber){
-        return restTemplate.getForObject(flaskApiBaseUrl + "/" + seatNumber, Seat.class);
-    }
-
-
-    private final SeatRepository seatRepository;
-
     @Autowired
-    public SeatServiceImpl(SeatRepository seatRepository){
+    private SeatRepository seatRepository;
+
+    public SeatServiceImpl(SeatRepository seatRepository) {
         this.seatRepository = seatRepository;
     }
 
+    private final String flaskApiBaseUrl = "http://192.168.1.63:8000/api/admin/airplane/airplane/123/seats";
+
+    public List<Seat> getSeatsByFlightId(Long flightId){
+        String url = flaskApiBaseUrl + flightId + "/seats";
+        Seat[] seats = restTemplate.getForObject(url,Seat[].class);
+        return Arrays.stream(seats).collect(Collectors.toList());
+    }
+
     @Override
-    public Seat createSeat(Seat seat){
+    public Seat createSeat(Seat seat) {
         SeatEntity seatEntity = SeatMapper.mapToSeatEntity(seat);
         seatEntity.setAvailability(seat.getAvailability());
         seatEntity.setUpdatedAt(LocalDateTime.now());
@@ -47,11 +47,16 @@ public class SeatServiceImpl implements SeatService {
         return SeatMapper.mapToSeat(savedSeatEntity);
     }
 
-//    @Override
-//    public List<Seat> getAllSeats(){
-//        List<SeatEntity> seatEntities = seatRepository.findAll();
-//        return seatEntities.stream().map(SeatMapper::mapToSeat).toList();
-//    }
+    @Override
+    public List<Seat> getAllSeats() {
+        List<SeatEntity> seatEntities = seatRepository.findAll();
+        return seatEntities.stream().map(SeatMapper::mapToSeat).collect(Collectors.toList());
+    }
+
+    @Override
+    public Seat getSeatByNumber(String number) {
+        return null;
+    }
 
     @Override
     public Seat getSeatById(Long id){
@@ -63,6 +68,7 @@ public class SeatServiceImpl implements SeatService {
         SeatEntity seatEntity = SeatMapper.mapToSeatEntity(seat);
         seatEntity.setAvailability(seat.getAvailability());
         seatEntity.setUpdatedAt(LocalDateTime.now());
+        seatEntity.setCreatedAt(LocalDateTime.now());
         SeatEntity updatedSeatEntity = seatRepository.save(seatEntity);
         return SeatMapper.mapToSeat(updatedSeatEntity);
     }
@@ -70,5 +76,24 @@ public class SeatServiceImpl implements SeatService {
     @Override
     public void deleteSeat(Long id){
         seatRepository.deleteById(id);
+    }
+
+    @Override
+    public boolean checkSeatAvailability(Long flightId,String seatNumber){
+        List<Seat> seats = getSeatsByFlightId(flightId);
+        return seats.stream()
+                .anyMatch(seat -> seat.getSeatNumber().equals(seatNumber) && seat.getAvailability());
+    }
+
+    @Override
+    public Seat bookSeat(Long flightId,String seatNumber){
+        List<Seat> seats = getSeatsByFlightId(flightId);
+        Seat seatToBook = seats.stream()
+                .filter(seat -> seat.getSeatNumber().equals(seatNumber) && seat.getAvailability())
+                .findFirst()
+                .orElseThrow(() -> new RuntimeException("Seat Not Available"));
+
+        seatToBook.setAvailability(false);
+        return updateSeat(seatToBook);
     }
 }
