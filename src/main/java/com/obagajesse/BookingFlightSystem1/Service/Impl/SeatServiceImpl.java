@@ -54,8 +54,9 @@ public class SeatServiceImpl implements SeatService {
     }
 
     @Override
-    public Seat getSeatByNumber(String number) {
-        return null;
+    public Seat getSeatByNumber(String seatNumber) {
+        SeatEntity seatEntity = seatRepository.findBySeatNumber(seatNumber);
+        return SeatMapper.mapToSeat(seatEntity);
     }
 
     @Override
