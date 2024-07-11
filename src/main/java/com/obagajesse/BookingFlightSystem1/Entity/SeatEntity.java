@@ -5,11 +5,13 @@ import com.obagajesse.BookingFlightSystem1.DTO.Seat;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDateTime;
 
+@EqualsAndHashCode(callSuper = true)
 @Entity
 @Table(name = "seats")
 @Data
