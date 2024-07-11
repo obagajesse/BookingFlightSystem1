@@ -1,13 +1,16 @@
 package com.obagajesse.BookingFlightSystem1.Service.Impl;
 
+import com.google.zxing.WriterException;
 import com.obagajesse.BookingFlightSystem1.DTO.Ticket;
 import com.obagajesse.BookingFlightSystem1.Entity.TicketEntity;
 import com.obagajesse.BookingFlightSystem1.Enum.ClassType;
 import com.obagajesse.BookingFlightSystem1.Mapper.TicketMapper;
 import com.obagajesse.BookingFlightSystem1.Repository.TicketRepository;
+import com.obagajesse.BookingFlightSystem1.Service.QRCodeService;
 import com.obagajesse.BookingFlightSystem1.Service.TicketService;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
@@ -17,9 +20,12 @@ public class TicketServiceImpl implements TicketService {
 
     private TicketRepository ticketRepository;
 
-    public TicketServiceImpl(TicketRepository ticketRepository){
+    public TicketServiceImpl(TicketRepository ticketRepository, QRCodeService qrCodeService){
         this.ticketRepository = ticketRepository;
+        this.qrCodeService = qrCodeService;
     }
+
+    private final QRCodeService qrCodeService;
 
     @Override
     public Ticket createTicket(Ticket ticket){
@@ -28,6 +34,15 @@ public class TicketServiceImpl implements TicketService {
         ticketEntity.setCreatedAt(LocalDateTime.now());
         ticketEntity.setTicketNumber(UUID.randomUUID().toString());
         ticketEntity.setIssueDate(LocalDateTime.now());
+
+        try{
+            String qrCodeText = "TicketNumber:" + ticketEntity.getTicketNumber();
+            byte[] qrCode = qrCodeService.generateQRCode(qrCodeText,250,250);
+            ticketEntity.setQrCode(qrCode);
+        }catch(WriterException | IOException e){
+            e.printStackTrace();
+        }
+
         TicketEntity savedTicketEntity = ticketRepository.save(ticketEntity);
         return TicketMapper.mapToTicket(savedTicketEntity);
     }

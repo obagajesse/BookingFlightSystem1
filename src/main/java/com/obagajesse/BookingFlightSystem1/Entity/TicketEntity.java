@@ -33,6 +33,10 @@ public class TicketEntity extends Ticket {
     @Column(nullable = false,unique = true)
     private String ticketNumber;
 
+    @Lob
+    @Column(nullable = false,unique = true)
+    private byte[] qrCode;
+
     @Column(nullable = false)
     private Long flightId;
 
@@ -71,6 +75,34 @@ public class TicketEntity extends Ticket {
         this.bookingId = bookingId;
         this.passengerId = passengerId;
         this.ticketNumber = ticketNumber;
+        this.flightId = flightId;
+        this.seatNumber = seatNumber;
+        this.classType = classType;
+        this.issueDate = issueDate;
+        this.status = status;
+        this.createdAt = createdAt;
+        this.updatedAt = updatedAt;
+    }
+
+    public TicketEntity(Long id, Long bookingId, Long passengerId, String ticketNumber, byte qrCode, Long flightId, String seatNumber, ClassType classType, LocalDateTime issueDate, TicketStatus status, LocalDateTime createdAt, LocalDateTime updatedAt) {
+        this.id = id;
+        this.bookingId = bookingId;
+        this.passengerId = passengerId;
+        this.ticketNumber = ticketNumber;
+        this.qrCode = new byte[0];
+        this.seatNumber = seatNumber;
+        this.classType = classType;
+        this.issueDate = issueDate;
+        this.status = status;
+        this.createdAt = createdAt;
+    }
+
+    public TicketEntity(Long id, Long bookingId, Long passengerId, String ticketNumber, byte[] qrCode, Long flightId, String seatNumber, ClassType classType, LocalDateTime issueDate, TicketStatus status, LocalDateTime createdAt, LocalDateTime updatedAt) {
+        this.id = id;
+        this.bookingId = bookingId;
+        this.passengerId = passengerId;
+        this.ticketNumber = ticketNumber;
+        this.qrCode = qrCode;
         this.flightId = flightId;
         this.seatNumber = seatNumber;
         this.classType = classType;

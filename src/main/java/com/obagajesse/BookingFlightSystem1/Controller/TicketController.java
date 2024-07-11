@@ -5,7 +5,9 @@ import com.obagajesse.BookingFlightSystem1.ExceptionHandling.BookingNotFoundExce
 import com.obagajesse.BookingFlightSystem1.ExceptionHandling.InvalidInputException;
 import com.obagajesse.BookingFlightSystem1.Service.TicketService;
 import io.swagger.v3.oas.annotations.Operation;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -36,6 +38,19 @@ public class TicketController {
             throw new BookingNotFoundException("Ticket not found.");
         }
         return ResponseEntity.ok(ticket);
+    }
+
+    @GetMapping("/{id}/qr")
+    public ResponseEntity<byte[]> getTicketByQRCode(@PathVariable Long id){
+        Ticket ticket = ticketService.getTicketById(id);
+        if(ticket == null){
+            throw new BookingNotFoundException("Ticket not found");
+        }
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.IMAGE_PNG);
+        headers.setContentLength(ticket.getQrCode().length);
+        return new ResponseEntity<>(ticket.getQrCode(), headers, HttpStatus.OK);
     }
 
     @Operation(summary = "Generate a ticket after payment has been successful.")
