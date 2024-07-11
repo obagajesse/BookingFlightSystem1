@@ -20,12 +20,12 @@ public class TicketServiceImpl implements TicketService {
 
     private TicketRepository ticketRepository;
 
+    private final QRCodeService qrCodeService;
+
     public TicketServiceImpl(TicketRepository ticketRepository, QRCodeService qrCodeService){
         this.ticketRepository = ticketRepository;
         this.qrCodeService = qrCodeService;
     }
-
-    private final QRCodeService qrCodeService;
 
     @Override
     public Ticket createTicket(Ticket ticket){
