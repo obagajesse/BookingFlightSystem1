@@ -74,7 +74,7 @@ public class SeatServiceImpl implements SeatService {
 
     @Override
     public void deleteSeat(Long id){
-        seatRepository.deleteById(id);
+        seatRepository.findById(id).orElseThrow(() -> new RuntimeException("Seat Does Not Exist"));
     }
 
     @Override
