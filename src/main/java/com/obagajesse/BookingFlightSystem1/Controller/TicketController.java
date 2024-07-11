@@ -40,6 +40,7 @@ public class TicketController {
         return ResponseEntity.ok(ticket);
     }
 
+    @Operation(summary = "Get the QR Code of a ticket by its id.")
     @GetMapping("/{id}/qr")
     public ResponseEntity<byte[]> getTicketByQRCode(@PathVariable Long id){
         Ticket ticket = ticketService.getTicketById(id);
@@ -63,6 +64,6 @@ public class TicketController {
     @DeleteMapping("/{id}")
     public ResponseEntity<String> deleteTicket(@PathVariable Long id){
         ticketService.deleteTicket(id);
-        return new ResponseEntity<>("Ticket Deleted Succesfully.", HttpStatus.OK);
+        return new ResponseEntity<>("Ticket Deleted Successfully.", HttpStatus.OK);
     }
 }

@@ -63,6 +63,15 @@ public class TicketServiceImpl implements TicketService {
         TicketEntity ticketEntity = TicketMapper.mapToTicketEntity(ticket);
         ticketEntity.setUpdatedAt(LocalDateTime.now());
         ticketEntity.setTicketNumber(UUID.randomUUID().toString());
+
+        try{
+            String qrCodeText = "TicketNumber:" + ticketEntity.getTicketNumber();
+            byte[] qrCode = qrCodeService.generateQRCode(qrCodeText,250,250);
+            ticketEntity.setQrCode(qrCode);
+        }catch(WriterException | IOException e){
+            e.printStackTrace();
+        }
+
         TicketEntity updatedTicketEntity = ticketRepository.save(ticketEntity);
         return TicketMapper.mapToTicket(updatedTicketEntity);
     }
