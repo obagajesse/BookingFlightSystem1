@@ -12,7 +12,7 @@ public interface SeatService {
 
     List<Seat> getAllSeats();
 
-    Seat getSeatByNumber(String number);
+    Seat getSeatByNumber(String seatNumber);
 
     Seat getSeatById(Long id);
 

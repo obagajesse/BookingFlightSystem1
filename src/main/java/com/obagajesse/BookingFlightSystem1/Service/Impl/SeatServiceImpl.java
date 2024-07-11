@@ -41,7 +41,6 @@ public class SeatServiceImpl implements SeatService {
     public Seat createSeat(Seat seat) {
         SeatEntity seatEntity = SeatMapper.mapToSeatEntity(seat);
         seatEntity.setAvailability(seat.getAvailability());
-        seatEntity.setUpdatedAt(LocalDateTime.now());
         seatEntity.setCreatedAt(LocalDateTime.now());
         SeatEntity savedSeatEntity = seatRepository.save(seatEntity);
         return SeatMapper.mapToSeat(savedSeatEntity);
@@ -69,7 +68,6 @@ public class SeatServiceImpl implements SeatService {
         SeatEntity seatEntity = SeatMapper.mapToSeatEntity(seat);
         seatEntity.setAvailability(seat.getAvailability());
         seatEntity.setUpdatedAt(LocalDateTime.now());
-        seatEntity.setCreatedAt(LocalDateTime.now());
         SeatEntity updatedSeatEntity = seatRepository.save(seatEntity);
         return SeatMapper.mapToSeat(updatedSeatEntity);
     }
