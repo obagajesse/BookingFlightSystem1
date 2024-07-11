@@ -22,7 +22,6 @@ public class PaymentServiceImpl implements PaymentService {
     @Override
     public Payment createPayment(Payment payment){
         PaymentEntity paymentEntity = PaymentMapper.mapToPaymentEntity(payment);
-        paymentEntity.setUpdatedAt(LocalDateTime.now());
         paymentEntity.setCreatedAt(LocalDateTime.now());
         PaymentEntity savedPaymentEntity = paymentRepository.save(paymentEntity);
         return PaymentMapper.mapToPayment(savedPaymentEntity);
@@ -49,6 +48,6 @@ public class PaymentServiceImpl implements PaymentService {
 
     @Override
     public void deletePayment(Long id){
-        paymentRepository.deleteById(id);
+        paymentRepository.findById(id).orElseThrow(() -> new RuntimeException("Payment cancelled"));
     }
 }

@@ -26,7 +26,6 @@ public class TicketServiceImpl implements TicketService {
         TicketEntity ticketEntity = TicketMapper.mapToTicketEntity(ticket);
         ticketEntity.setStatus();
         ticketEntity.setCreatedAt(LocalDateTime.now());
-        ticketEntity.setUpdatedAt(LocalDateTime.now());
         ticketEntity.setTicketNumber(UUID.randomUUID().toString());
         ticketEntity.setIssueDate(LocalDateTime.now());
         TicketEntity savedTicketEntity = ticketRepository.save(ticketEntity);
@@ -47,7 +46,6 @@ public class TicketServiceImpl implements TicketService {
     @Override
     public Ticket updateTicket(Ticket ticket){
         TicketEntity ticketEntity = TicketMapper.mapToTicketEntity(ticket);
-        ticketEntity.setCreatedAt(LocalDateTime.now());
         ticketEntity.setUpdatedAt(LocalDateTime.now());
         ticketEntity.setTicketNumber(UUID.randomUUID().toString());
         TicketEntity updatedTicketEntity = ticketRepository.save(ticketEntity);

@@ -62,6 +62,10 @@ public class TicketEntity extends Ticket {
     @JoinColumn(name = "book_id")
     private BookingEntity booking;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "booked_id")
+    private SeatEntity seat;
+
     public TicketEntity(Long id, Long bookingId, Long passengerId, String ticketNumber, Long flightId, String seatNumber, ClassType classType, LocalDateTime issueDate, TicketStatus status, LocalDateTime createdAt, LocalDateTime updatedAt) {
         this.id = id;
         this.bookingId = bookingId;
