@@ -10,7 +10,6 @@ import lombok.NoArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDateTime;
-import java.util.List;
 
 @EqualsAndHashCode(callSuper = true)
 @Entity
@@ -19,6 +18,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 public class SeatEntity extends Seat {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -42,15 +42,15 @@ public class SeatEntity extends Seat {
     @JsonFormat(pattern = "dd-MM-yyyy")
     private LocalDateTime updatedAt;
 
-
     @PrePersist
     protected void onCreate(){
         this.createdAt = LocalDateTime.now();
+        this.updatedAt = LocalDateTime.now(); // Initialize updatedAt on create
     }
 
     @PreUpdate
     protected void onUpdate(){
-        this.updatedAt = LocalDateTime.now();
+        this.updatedAt = LocalDateTime.now(); // Update updatedAt on every update
     }
 
     @Override
