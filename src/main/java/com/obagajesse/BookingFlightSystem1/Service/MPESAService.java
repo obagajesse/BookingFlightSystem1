@@ -52,7 +52,7 @@ public class MPESAService {
     public Mono<JsonNode> initiatePayment(Payment payment) {
         return getAccessToken()
                 .flatMap(accessToken -> {
-                    String timestamp = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMddHHmmss"));
+                    String timestamp = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMdd"));
                     String password = Base64.getEncoder().encodeToString((shortCode + passKey+ timestamp).getBytes());
 
                     JsonNode payload = objectMapper.createObjectNode()
