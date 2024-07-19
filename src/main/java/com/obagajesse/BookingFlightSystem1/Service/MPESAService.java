@@ -71,7 +71,7 @@ public class MPESAService {
                     return webClient.post()
                             .uri("/mpesa/stkpush/v1/processrequest")
                             .headers(headers -> headers.setBearerAuth(accessToken))
-                            .bodyValue(paymentRequest)
+                            .bodyValue(payment)
                             .retrieve()
                             .bodyToMono(JsonNode.class);
                 });
