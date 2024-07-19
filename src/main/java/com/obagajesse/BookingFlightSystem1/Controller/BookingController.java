@@ -3,7 +3,9 @@ package com.obagajesse.BookingFlightSystem1.Controller;
 import com.obagajesse.BookingFlightSystem1.DTO.Booking;
 import com.obagajesse.BookingFlightSystem1.ExceptionHandling.BookingNotFoundException;
 import com.obagajesse.BookingFlightSystem1.Service.BookingService;
+import io.swagger.v3.oas.annotations.OpenAPIDefinition;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.info.Info;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -14,7 +16,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/bookings")
-//@Api(value = "Booking Management System", description = "Operations pertaining to bookings in the Flight Management System")
+@OpenAPIDefinition(info = @Info(title = "Booking Flight System API", version = "v1"))
 public class BookingController {
 
     private  BookingService bookingService;
